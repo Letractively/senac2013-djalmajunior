@@ -1,81 +1,104 @@
-package control;
+package cotrol;
 
 import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import persistence.PessoaDao;
-
 import entity.Endereco;
 import entity.Pessoa;
 
+
+@WebServlet({ "/Controle", "/CadastrarPessoa", "/ListarPessoa" })
 public class Controle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 
     public Controle() {
         // TODO Auto-generated constructor stub
     }
 
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		execute(request, response);
 	}
+
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		execute(request, response);
 	}
 	
 	protected void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try{
-			
+
+		try {
 			/*
-			 * Buscar a variavel q, que define qual a operaçao executada
+			 * Buscar a variavel q, que define qual a operação executada
 			 */
 			String q = request.getParameter("q");
 			
 			if(q.equalsIgnoreCase("cadastrar")){
 				
-				/*Resgatar os dados da pessoa no formulario*/
+				/*
+				 * Recuperando os dados da pessoa no formulário
+				 */
 				Pessoa p1 = new Pessoa(null, 
-						request.getParameter("nome"), 
-						request.getParameter("email"), 
+						request.getParameter("nome"),
+						request.getParameter("email"),
 						new Integer(request.getParameter("idade")));
 				
-				/*Resgatar os dados da endereco no formulario*/
-				Endereco e1 = new Endereco(null, 
-						request.getParameter("cidade"), 
+				/*
+				 * Recuperando os dados do endereço no formulário
+				 */
+				Endereco e1 = new Endereco(null,
+						request.getParameter("cidade"),
 						request.getParameter("estado"));
-				/*Relacionar os objetos, Endereco e1 é da pessoa p1*/
+				
+				/*
+				 * fazendo o relacionamento de Pessoa com Endereço
+				 */
 				p1.setEndereco(e1);
-				/*Gravar no banco de dadso*/
+				
+				/*
+				 * Gravar no banco de dados
+				 */
 				new PessoaDao().cadastrar(p1);
-				/*Adicionar uma mensagem para a variavel msg*/
-				request.setAttribute("msg", "Cadastrado com sucesso!");
-				/*Redirecionar para a index.jsp levando a mensagem*/
+				/*
+				 * Setando o valor da MSG que está sendo recuperada no index
+				 */
+				request.setAttribute("msg", "Cadastrado com Sucesso");
+				/*
+				 * Jogando a variável de msg na requisição para a index.jsp
+				 */
 				request.getRequestDispatcher("index.jsp").forward(request, response);
 				
 			}else if(q.equalsIgnoreCase("listar")){
-				
-				/*Executar a consulta para a lista de Pessoas*/
-				List<Pessoa> listaPessoa = new PessoaDao().listar();
-				/*Adicionar o resultado da consulta em atributo chamado lista*/
-				request.setAttribute("lista", listaPessoa);
+				/*
+				 * Executar a consulta para a lista de Pessoa
+				 */
+				List<Pessoa> listarPessoa = new PessoaDao().listar();
+				/*
+				 * Adicionar o resultado da consulta em atributo chamado lista
+				 */
+				request.setAttribute("lista", listarPessoa);
 				/*
 				 * Redirecionar para a listar.jsp carregando o atributo lista que 
-				 * contem todos os dados obtidos da consulta
+				 * contemtodos os dados obtidos da consulta
 				 */
 				request.getRequestDispatcher("listar.jsp").forward(request, response);
-				
 			}else{
-				throw new Exception("Ação Invalida!");
+				throw new Exception("Ação Inválida!");
 			}
 			
-		}catch (Exception e) {
+			
+		} catch (Exception e) {
 			request.setAttribute("msg", e.getMessage());
 			request.getRequestDispatcher("index.jsp").forward(request, response);
+			
 		}
 	}
 

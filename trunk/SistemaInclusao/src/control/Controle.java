@@ -29,53 +29,65 @@ public class Controle extends HttpServlet {
 	}
 	
 	protected void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try{
-			
-			/*
-			 * Buscar a variavel q, que define qual a operaçao executada
-			 */
+		try {
 			String q = request.getParameter("q");
-			
-			if(q.equalsIgnoreCase("cadastrar")){
+			if(q.equalsIgnoreCase("cadastrar"))
+				cadastrar(request, response);
+			else if(q.equalsIgnoreCase("consultar"))
+				consultar(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	protected void cadastrar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			try {
+				String nome = request.getParameter("nome");
+				String email = request.getParameter("email");
+				Integer idade = new Integer(request.getParameter("idade"));
+				String cidade = request.getParameter("cidade");
+				String estado = request.getParameter("estado");
 				
-				/*Resgatar os dados da pessoa no formulario*/
-				Pessoa p1 = new Pessoa(null, 
-						request.getParameter("nome"), 
-						request.getParameter("email"), 
-						new Integer(request.getParameter("idade")));
+				if(nome == null){
+					request.setAttribute("msg", "Preencha o campo nome!");
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}else if(email == null){
+					request.setAttribute("msg", "Preencha o campo email!");
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}else if(idade == 0){
+					request.setAttribute("msg", "Preencha o campo idade!");
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}else if(cidade == null){
+					request.setAttribute("msg", "Preencha o campo cidade!");
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}else{
+					Pessoa p1 = new Pessoa(null, nome, email, idade);
+					
+					
+					Endereco e1 = new Endereco(null, cidade, estado);
+					
+					p1.setEndereco(e1);
+					
+					new PessoaDao().cadastrar(p1);
+					
+					request.setAttribute("msg", "Cadastrado com sucesso!");
+					
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}
 				
-				/*Resgatar os dados da endereco no formulario*/
-				Endereco e1 = new Endereco(null, 
-						request.getParameter("cidade"), 
-						request.getParameter("estado"));
-				/*Relacionar os objetos, Endereco e1 é da pessoa p1*/
-				p1.setEndereco(e1);
-				/*Gravar no banco de dadso*/
-				new PessoaDao().cadastrar(p1);
-				/*Adicionar uma mensagem para a variavel msg*/
-				request.setAttribute("msg", "Cadastrado com sucesso!");
-				/*Redirecionar para a index.jsp levando a mensagem*/
-				request.getRequestDispatcher("index.jsp").forward(request, response);
-				
-			}else if(q.equalsIgnoreCase("listar")){
-				
-				/*Executar a consulta para a lista de Pessoas*/
-				List<Pessoa> listaPessoa = new PessoaDao().listar();
-				/*Adicionar o resultado da consulta em atributo chamado lista*/
-				request.setAttribute("lista", listaPessoa);
-				/*
-				 * Redirecionar para a listar.jsp carregando o atributo lista que 
-				 * contem todos os dados obtidos da consulta
-				 */
-				request.getRequestDispatcher("listar.jsp").forward(request, response);
-				
-			}else{
-				throw new Exception("Ação Invalida!");
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+	}
+	protected void consultar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
 			
-		}catch (Exception e) {
-			request.setAttribute("msg", e.getMessage());
-			request.getRequestDispatcher("index.jsp").forward(request, response);
+			List<Pessoa> listaPessoa = new PessoaDao().listar();
+			
+			request.setAttribute("lista", listaPessoa);
+	
+			request.getRequestDispatcher("listar.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

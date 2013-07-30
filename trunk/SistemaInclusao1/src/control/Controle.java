@@ -47,18 +47,32 @@ public class Controle extends HttpServlet {
 				String cidade = request.getParameter("cidade");
 				String estado = request.getParameter("estado");
 				
-				Pessoa p1 = new Pessoa(null, nome, email, idade);
-				
-				
-				Endereco e1 = new Endereco(null, cidade, estado);
-				
-				p1.setEndereco(e1);
-				
-				new PessoaDao().cadastrar(p1);
-				
-				request.setAttribute("msg", "Cadastrado com sucesso!");
-				
-				request.getRequestDispatcher("index.jsp").forward(request, response);
+				if(nome == null){
+					request.setAttribute("msg", "Preencha o campo nome!");
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}else if(email == null){
+					request.setAttribute("msg", "Preencha o campo email!");
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}else if(idade == 0){
+					request.setAttribute("msg", "Preencha o campo idade!");
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}else if(cidade == null){
+					request.setAttribute("msg", "Preencha o campo cidade!");
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}else{
+					Pessoa p1 = new Pessoa(null, nome, email, idade);
+					
+					
+					Endereco e1 = new Endereco(null, cidade, estado);
+					
+					p1.setEndereco(e1);
+					
+					new PessoaDao().cadastrar(p1);
+					
+					request.setAttribute("msg", "Cadastrado com sucesso!");
+					
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}
 				
 			} catch (Exception e) {
 				e.printStackTrace();

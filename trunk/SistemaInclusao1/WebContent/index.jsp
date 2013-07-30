@@ -4,45 +4,43 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Java WebDeveloper 07</title>
 </head>
 <body>
-
-	<h3>Cadastrar Pessoa</h3>
+	<h3>Cadastrar Pessoa:</h3>
 	
 	<form action="CadastrarPessoa" method="post">
-	
-		Nome: <input type="text" name="nome" />
-		<br /><br />
-		E-mail: <input type="text" name="email" />
-		<br /><br />
-		Idade: <input type="text" name="idade" />
-		<br /><br />
-		Cidade: <input type="text" name="cidade" />
-		<br /><br />
+		Nome: <input type="text" name="nome" id="nome">
+		<br/><br/>
+		E-Mail: <input type="text" name="email" id="email">
+		<br/><br/>
+		Idade: <input type="text" name="idade" id="idade">
+		<br/><br/>
+		Cidade: <input type="text" name="cidade" id="cidade">
+		<br/><br/>
 		Estado: 
-		<select name="estado">
+		<select name="estado" id="estado">
 			<option value="RJ">RJ</option>
 			<option value="SP">SP</option>
 			<option value="MG">MG</option>
 			<option value="ES">ES</option>
 		</select>
-		<br /><br />
-		<input type="submit" value="Cadastrar Pessoa" />
-		<!-- Pela variavel q, que o Servlet vai saber qual operação executar -->
-		<input type="hidden" name="q" value="cadastrar" />
+		<br/><br/>
+		
+		<input type="submit" value="Cadastrar Pessoa"/>
+		<!-- Pela variável "q" que o Servlet vai saber qual operação executar -->
+		<input type="hidden" name="q" value="cadastrar"/>
 	</form>
-	<br /><br />
-	<!-- 
-	EL -> Expression Language
-	Se existir um atributo ou sessao chamada msg, vai ser impresso
-	 -->
+	<br/><br/>
+	<!-- EL - Expression Language
+	Se existir um atributo ou sessao chamada msg, vai ser impresso -->
 	${msg }
+	<!-- Mesma coisa que o código abaixo em Java -->
 	<%
-	//if(request.getAttribute("msg") != null)
-	//	out.print((String) request.getAttribute("msg"));
+		//if(request.getAtribute("msg") != null)
+			//out.print((String) request.getAtribute("msg"));
 	%>
-	<a href="ListarPessoa?q=listar">Listar Pessoas</a>
-
+	
+	<a href="ListarPessoa?q=listar">Listar Pessoa</a>
 </body>
 </html>

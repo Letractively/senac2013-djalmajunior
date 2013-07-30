@@ -37,12 +37,27 @@ public class Controle extends HttpServlet {
 			String q = request.getParameter("q");
 			
 			if(q.equalsIgnoreCase("cadastrar")){
-				
+				String nome = request.getParameter("nome");
+				String email = request.getParameter("email");
+				Integer idade = new Integer(request.getParameter("idade"));
+				if(nome.equalsIgnoreCase("")){
+					/*Adicionar uma mensagem para a variavel msg*/
+					request.setAttribute("msg", "Preencha o Campo Nome!");
+					/*Redirecionar para a index.jsp levando a mensagem*/
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}else if(email.equalsIgnoreCase("")){
+					/*Adicionar uma mensagem para a variavel msg*/
+					request.setAttribute("msg", "Preencha o Campo Email!");
+					/*Redirecionar para a index.jsp levando a mensagem*/
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}else if(idade != null){
+					/*Adicionar uma mensagem para a variavel msg*/
+					request.setAttribute("msg", "Preencha o Campo Idade!");
+					/*Redirecionar para a index.jsp levando a mensagem*/
+					request.getRequestDispatcher("index.jsp").forward(request, response);
+				}
 				/*Resgatar os dados da pessoa no formulario*/
-				Pessoa p1 = new Pessoa(null, 
-						request.getParameter("nome"), 
-						request.getParameter("email"), 
-						new Integer(request.getParameter("idade")));
+				Pessoa p1 = new Pessoa(null, nome,email,idade);
 				
 				/*Resgatar os dados da endereco no formulario*/
 				Endereco e1 = new Endereco(null, 
@@ -56,6 +71,7 @@ public class Controle extends HttpServlet {
 				request.setAttribute("msg", "Cadastrado com sucesso!");
 				/*Redirecionar para a index.jsp levando a mensagem*/
 				request.getRequestDispatcher("index.jsp").forward(request, response);
+				
 				
 			}else if(q.equalsIgnoreCase("listar")){
 				

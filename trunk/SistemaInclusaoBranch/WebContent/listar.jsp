@@ -6,33 +6,31 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Java WebDeveloper 07</title>
 </head>
 <body>
-
-	<h3>Lista de Pessoa</h3>
-	
+	<h3>Lista de Pessoas:</h3>
 	<c:if test="${fn:length(lista) > 0 }">
-		<table width="100%">
+		<table width="50%">
 			<tr>
-				<th>Nome</th>
-				<th>E-mail</th>
-				<th>Idade</th>
-				<th>Cidade</th>
-				<th>Estado</th>
+				<th>Nome:</th>
+				<th>E-mail:</th>
+				<th>Idade:</th>
+				<th>Cidade:</th>
+				<th>Estado:</th>
 			</tr>
-			<c:forEach items="${lista }" var="p">
+			<c:forEach items="${lista}" var="p">
 				<tr>
-					<td>${fn:toUpperCase(p.nome) }</td>
-					<td>${p.email }</td>
-					<td>${p.idade }</td>
-					<td>${p.endereco.cidade }</td>
-					<td>${p.endereco.estado }</td>
+					<td align="center">${fn:toUpperCase(p.nome) }</td>
+					<td align="center">${p.email }</td>
+					<td align="center">${p.idade }</td>
+					<td align="center">${p.endereco.cidade }</td>
+					<td align="center">${p.endereco.estado }</td>
 				</tr>
 			</c:forEach>
-	</table>
+		</table>
 	</c:if>
-	<br />
+	<br/>
 	<a href="index.jsp">Voltar</a>
 </body>
 </html>

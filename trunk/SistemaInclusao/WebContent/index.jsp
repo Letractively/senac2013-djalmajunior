@@ -4,19 +4,49 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Sistema de Inclusão</title>
+<title>Sistema de InclusÃ£o</title>
+<script language="JavaScript" >
+	function enviardados(){
+	
+		if(document.formcadastro.nome.value=="" || document.formcadastro.nome.value.length < 8){
+			alert( "Preencha o Nome corretamente!" );
+			document.formcadastro.nome.focus();
+			return false;
+		}
+		
+		if(document.formcadastro.email.value==""){
+			alert( "Preencha o Email!" );
+			document.formcadastro.email.focus();
+			return false;
+		}
+		
+		if(document.formcadastro.idade.value==""){
+			alert( "Preencha a Idade!" );
+			document.formcadastro.idade.focus();
+			return false;
+		}
+			
+		if (document.formcadastro.cidade.value==""){
+			alert( "Preencha a Cidade!" );
+			document.formcadastro.cidade.focus();
+			return false;
+		}
+	
+	return true;
+	}
+</script>
 </head>
 <body>
 	<h3>Cadastrar Pessoa:</h3>
 	
-	<form action="CadastrarPessoa" method="post">
-		Nome: <input type="text" name="nome">
+	<form action="CadastrarPessoa" method="post" name="formcadastro" onsubmit="return enviardados();">
+		Nome: <input type="text" name="nome" id="nome">
 		<br/><br/>
-		E-Mail: <input type="text" name="email">
+		E-Mail: <input type="text" name="email" id="email">
 		<br/><br/>
-		Idade: <input type="text" name="idade">
+		Idade: <input type="text" name="idade" id="idade">
 		<br/><br/>
-		Cidade: <input type="text" name="cidade">
+		Cidade: <input type="text" name="cidade" id="cidade">
 		<br/><br/>
 		Estado: 
 		<select name="estado">
@@ -28,19 +58,13 @@
 		<br/><br/>
 		
 		<input type="submit" value="Cadastrar Pessoa"/>
-		<!-- Pela variável "q" que o Servlet vai saber qual operação executar -->
+
 		<input type="hidden" name="q" value="cadastrar"/>
 	</form>
 	<br/><br/>
-	<!-- EL - Expression Language
-	Se existir um atributo ou sessao chamada msg, vai ser impresso -->
+
 	${msg }
-	<!-- Mesma coisa que o código abaixo em Java -->
-	<%
-		//if(request.getAtribute("msg") != null)
-			//out.print((String) request.getAtribute("msg"));
-	%>
-	
+  <br/><br/>
 	<a href="ListarPessoa?q=listar">Listar Pessoa</a>
 </body>
 </html>

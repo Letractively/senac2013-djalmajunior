@@ -47,27 +47,6 @@ public class Controle extends HttpServlet {
 				String cidade = request.getParameter("cidade");
 				String estado = request.getParameter("estado");
 				
-				if(nome.equals("")){
-					
-					request.setAttribute("msg", "Problema com o Nome!");
-					
-					request.getRequestDispatcher("index.jsp").forward(request, response);
-					
-				}
-				if(email.equals("")){
-					
-					request.setAttribute("msg", "Problema com o email!");
-					
-					request.getRequestDispatcher("index.jsp").forward(request, response);
-					
-				}
-				if(idade != null){
-					
-					request.setAttribute("msg", "Problema com a idade!");
-					
-					request.getRequestDispatcher("index.jsp").forward(request, response);
-				}
-				
 				Pessoa p1 = new Pessoa(null, nome, email, idade);
 				
 				

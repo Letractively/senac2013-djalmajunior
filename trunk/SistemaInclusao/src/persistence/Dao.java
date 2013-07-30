@@ -13,7 +13,7 @@ public class Dao {
 	
 	private final String URL = "jdbc:mysql://localhost:3306/aula7";
 	private final String USER = "root";
-	private final String PASS = "coti";
+	private final String PASS = "root";
 	
 	protected void open()throws Exception{
 		Class.forName("com.mysql.jdbc.Driver");
